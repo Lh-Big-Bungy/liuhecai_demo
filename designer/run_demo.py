@@ -1,8 +1,8 @@
 import sys
 from UI.liuhecai import Ui_MainWindow
-from service.chinese_restricted_textEdit import ChineseRestrictedTextEdit
-from service.time_display import TimeDisplay
-from service.button_click import Button_click
+from controls.chinese_restricted_textEdit import ChineseRestrictedTextEdit
+from controls.time_display import TimeDisplay
+from controls.button_click import Button_click
 from controls.left_table import Left_table
 #from Test.test1 import TimeDisplay
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit
