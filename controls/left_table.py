@@ -8,10 +8,13 @@ class IntegerDelegate(QStyledItemDelegate):
         editor.setValidator(QIntValidator())
         return editor
 
-class Left_table():
-    def __init__(self, tableWidget):
+class LeftTable():
+    def __init__(self, tableWidget, textBrowser):
         self.tableWidget = tableWidget
+        self.textBrowser = textBrowser
         self.table_view()  # 调用方法以设置表格
+
+
     def table_view(self):
         integer_delegate = IntegerDelegate(self.tableWidget)
         # 指定第二列只能输入整数
@@ -32,10 +35,50 @@ class Left_table():
             item = QTableWidgetItem(str(row).zfill(2))  # 使用 zfill 确保两位数格式
             item.setFlags(item.flags() & ~Qt.ItemIsEditable)  # 不可编辑
             item.setTextAlignment(Qt.AlignCenter)
-            print(row)
             self.tableWidget.setItem(row-1, 0, item)
-
             # 第二列
             item2 = QTableWidgetItem('0')
             item2.setTextAlignment(Qt.AlignCenter)  # 设置文本居中
             self.tableWidget.setItem(row-1, 1, item2)
+
+    def copy_table_to_browser(self):
+        # 初始化一个字符串来保存表格内容
+        table_content = ""
+        # 遍历表格的每一行和每一列
+        for row in range(self.tableWidget.rowCount()):
+            flag = True
+            for col in range(self.tableWidget.columnCount()):
+                # 获取单元格的文本内容
+                item = self.tableWidget.item(row, col)
+                if col == 1 and item.text() == '0':
+                    table_content = temp_content
+                    flag = False
+                if item:
+                    cell_text = item.text()
+                else:
+                    cell_text = ""
+                    # 将单元格内容添加到字符串中，并添加分隔符
+                temp_content = table_content
+                if flag:
+                    table_content += cell_text + "\t"  # 使用制表符作为列分隔符
+            if flag:
+                table_content += '\n'
+            else:
+                pass
+
+
+        self.textBrowser.setText(table_content)
+
+    def clear_column_data(self):
+        """
+        清除指定列的数据。
+
+        :param table_widget: QTableWidget 对象
+        :param column_index: 要清除的列的索引
+        """
+        # 遍历指定列的所有行
+        for row in range(self.tableWidget.rowCount()):
+            # 获取当前行的指定列的单元格项
+            item2 = QTableWidgetItem('0')
+            item2.setTextAlignment(Qt.AlignCenter)  # 设置文本居中
+            self.tableWidget.setItem(row - 1, 1, item2)

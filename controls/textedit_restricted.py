@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QTextEdit
-from PyQt5.QtGui import QKeyEvent, QInputMethodEvent, QTextCharFormat, QFont, QColor
+from PyQt5.QtGui import QKeyEvent, QInputMethodEvent, QFont, QColor
 from PyQt5.QtCore import Qt, QMimeData
 
-class ChineseRestrictedTextEdit(QTextEdit):
+class TextEditRestrict(QTextEdit):
     def __init__(self, parent=None):
-        super(ChineseRestrictedTextEdit, self).__init__(parent)
+        super(TextEditRestrict, self).__init__(parent)
         self.setAttribute(Qt.WA_InputMethodEnabled, False)  # 禁用输入法
         # 设置默认字体大小
         self.setFontPointSize(12)
@@ -39,7 +39,7 @@ class ChineseRestrictedTextEdit(QTextEdit):
                 event.key() in [Qt.Key_Backspace, Qt.Key_Delete, Qt.Key_Left, Qt.Key_Right,
                                 Qt.Key_Up, Qt.Key_Down, Qt.Key_Home, Qt.Key_End, Qt.Key_PageUp,
                                 Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Return, Qt.Key_Enter]):
-            super(ChineseRestrictedTextEdit, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
+            super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
         else:
             event.ignore()
 
