@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QTableWidgetItem, QStyledItemDelegate, QLineEdit, QApplication
-from PyQt5.QtGui import QIntValidator, QPainter, QTextOption
+from PyQt5.QtWidgets import QTableWidgetItem, QStyledItemDelegate, QLineEdit
+from PyQt5.QtGui import QIntValidator
 from PyQt5.QtCore import Qt
 
 class IntegerDelegate(QStyledItemDelegate):
