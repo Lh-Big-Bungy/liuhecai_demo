@@ -15,6 +15,8 @@ class TextEditRestrict(QTextEdit):
         # 你也可以设置默认字体，如果需要的话
         self.setFont(QFont("Arial", 12))
         self.num = 0
+        self.restrict_flag = True
+        self.current_line_text = ''
     def insertFromMimeData(self, source: QMimeData) -> None:
         # 阻止通过粘贴操作输入中文
         if source.hasText():
@@ -39,32 +41,54 @@ class TextEditRestrict(QTextEdit):
         # 返回数字的个数
         return len(digits)
     def keyPressEvent(self, event: QKeyEvent) -> None:
-        if self.toPlainText() and self.num % 2 == 0 and event.key() not in [Qt.Key_Backspace, Qt.Key_Delete] and \
-                self.toPlainText()[-1] != ' ' and '=' not in self.toPlainText():
+        # 每输入两个数字，自动添加空格
+        if self.current_line_text and self.num % 2 == 0 and event.key() not in [Qt.Key_Backspace, Qt.Key_Delete] and \
+                self.current_line_text[-1] != ' ' and self.restrict_flag:
             self.insertPlainText(' ')
-        # 检查按键是否是数字、删除键、回退键或方向键等
-        if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4,
-                            Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
-
+        # 按下回车键后重置为 每输入两个数字，自动添加空格
+        elif event.key() in [Qt.Key_Return, Qt.Key_Enter]:
+            self.restrict_flag = True
+            self.current_line_text = ''
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
-            self.num = self.count_digits_in_string(self.toPlainText())
-
-        elif event.key() in [Qt.Key_Backspace, Qt.Key_Delete]:
-
-            # 处理删除键
+        # 计算当前行的数字个数
+        if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8,
+                           Qt.Key_9, Qt.Key_Backspace, Qt.Key_Delete]:
+            
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
-            self.num = self.count_digits_in_string(self.toPlainText())
-            self.char_counter = max(0, self.char_counter - 1)  # 减少char_counter的计数，但确保它不会变成负数
 
+            cursor = self.textCursor()
+            self.current_line_text = cursor.block().text()
+            print(self.current_line_text)
+            self.num = self.count_digits_in_string(self.current_line_text)
+            if '=' not in self.current_line_text:
+                self.restrict_flag = True
+            print(self.num)
 
-        if (event.key() in [ Qt.Key_Left, Qt.Key_Right,
+        # if event.key() in [Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
+        #     # 限制输入数字大小 1-49
+        #     if ((self.current_line_text and self.num % 2 == 0) or self.num == 0) and self.restrict_flag:
+        #         try:
+        #             digit = int(self.current_line_text[-1])
+        #             if digit > 4:
+        #                 event.ignore()
+        #         except:
+        #             event.ignore()
+        # 
+        #     else:
+        #         super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
+        #         self.num = self.count_digits_in_string(self.current_line_text)
+        elif event.key() in [ Qt.Key_Left, Qt.Key_Right,
                                 Qt.Key_Up, Qt.Key_Down, Qt.Key_Home, Qt.Key_End, Qt.Key_PageUp,
-                                Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Return, Qt.Key_Enter] or \
-                event.key() == Qt.Key_Period):
+                                Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Period]:
             if event.key() == Qt.Key_Period:
-                self.insertPlainText(' = ')  # 当按下.键时插入=
+                self.restrict_flag = False
+                if self.num % 2 == 0:
+                    self.insertPlainText('= ')  # 当按下.键时插入=
+                else:
+                    self.insertPlainText(' = ')  # 当按下.键时插入=
             else:
                 super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
+
         else:
             event.ignore()
 
