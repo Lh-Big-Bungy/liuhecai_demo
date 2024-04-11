@@ -51,32 +51,31 @@ class TextEditRestrict(QTextEdit):
             self.current_line_text = ''
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
         # 计算当前行的数字个数
-        if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8,
-                           Qt.Key_9, Qt.Key_Backspace, Qt.Key_Delete]:
+        if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_Backspace, Qt.Key_Delete]:
             
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
-
-            cursor = self.textCursor()
-            self.current_line_text = cursor.block().text()
+            self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
             print(self.current_line_text)
             self.num = self.count_digits_in_string(self.current_line_text)
             if '=' not in self.current_line_text:
                 self.restrict_flag = True
             print(self.num)
 
-        # if event.key() in [Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
-        #     # 限制输入数字大小 1-49
-        #     if ((self.current_line_text and self.num % 2 == 0) or self.num == 0) and self.restrict_flag:
-        #         try:
-        #             digit = int(self.current_line_text[-1])
-        #             if digit > 4:
-        #                 event.ignore()
-        #         except:
-        #             event.ignore()
-        # 
-        #     else:
-        #         super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
-        #         self.num = self.count_digits_in_string(self.current_line_text)
+        if event.key() in [Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
+            # 限制输入数字大小 1-49
+            if ((self.current_line_text and self.num % 2 == 0) or self.num == 0) and self.restrict_flag:
+                try:
+                    self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
+                    digit = int(self.current_line_text[-1])
+                    if digit > 4:
+                        event.ignore()
+                except:
+                    event.ignore()
+
+            else:
+                super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
+                self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
+                self.num = self.count_digits_in_string(self.current_line_text)
         elif event.key() in [ Qt.Key_Left, Qt.Key_Right,
                                 Qt.Key_Up, Qt.Key_Down, Qt.Key_Home, Qt.Key_End, Qt.Key_PageUp,
                                 Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Period]:
