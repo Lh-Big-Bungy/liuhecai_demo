@@ -41,6 +41,12 @@ class TextEditRestrict(QTextEdit):
         # 返回数字的个数
         return len(digits)
     def keyPressEvent(self, event: QKeyEvent) -> None:
+        self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
+        # 限制不能输入 号码00
+        if event.key() == Qt.Key_0 and self.current_line_text and self.num % 2 == 1 and self.restrict_flag \
+                and self.current_line_text[-1] == '0':
+            event.ignore()
+            return
         # 每输入两个数字，自动添加空格
         if self.current_line_text and self.num % 2 == 0 and event.key() not in [Qt.Key_Backspace, Qt.Key_Delete] and \
                 self.current_line_text[-1] != ' ' and self.restrict_flag:
@@ -52,14 +58,14 @@ class TextEditRestrict(QTextEdit):
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
         # 计算当前行的数字个数
         if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_Backspace, Qt.Key_Delete]:
-            
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
             self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
             print(self.current_line_text)
             self.num = self.count_digits_in_string(self.current_line_text)
             if '=' not in self.current_line_text:
                 self.restrict_flag = True
-            print(self.num)
+            else:
+                self.restrict_flag = False
 
         if event.key() in [Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
             # 限制输入数字大小 1-49
