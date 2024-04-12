@@ -6,13 +6,7 @@ class TextEditRestrict(QTextEdit):
     def __init__(self, parent=None):
         super(TextEditRestrict, self).__init__(parent)
         self.setAttribute(Qt.WA_InputMethodEnabled, False)  # 禁用输入法
-        # # 设置默认字体大小
-        # self.setFontPointSize(12)
-        # self.setFontWeight(QFont.Bold) #字体加粗
-        # # 设置默认字体颜色
-        # self.setTextColor(QColor(Qt.black))  # 使用黑色作为默认字体颜色
-
-        # 你也可以设置默认字体，如果需要的话
+        # 设置默认字体
         self.setFont(QFont("Arial", 12))
         self.num = 0
         self.restrict_flag = True
@@ -60,7 +54,6 @@ class TextEditRestrict(QTextEdit):
         if event.key() in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_Backspace, Qt.Key_Delete]:
             super(TextEditRestrict, self).keyPressEvent(event)  # 调用父类的keyPressEvent处理
             self.current_line_text = self.textCursor().block().text()  # 当前行内容每次都需更新
-            print(self.current_line_text)
             self.num = self.count_digits_in_string(self.current_line_text)
             if '=' not in self.current_line_text:
                 self.restrict_flag = True
