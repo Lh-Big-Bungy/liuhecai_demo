@@ -82,16 +82,16 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="commit">
+        <widget class="QLabel" name="user_name">
          <property name="text">
-          <string>录单</string>
+          <string>TextLabel</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="personnel">
+        <widget class="QPushButton" name="commit">
          <property name="text">
-          <string>人员</string>
+          <string>录单</string>
          </property>
         </widget>
        </item>

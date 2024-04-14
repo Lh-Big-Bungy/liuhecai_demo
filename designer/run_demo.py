@@ -5,16 +5,19 @@ from controls.textbrowser_format import TextBrowserFormat
 from controls.time_display import TimeDisplay
 from controls.ball_button_click import ButtonClick
 from controls.left_table import LeftTable
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QDialog
 from sql.sql_control import SqlControl
 from controls.number_edit import NumberEdit
-
+from controls.log_in import LoginDialog
+from controls.loss_analysis import LossAnalysis
 
 class MyWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, username):
         super().__init__()
         self.setupUi(self)
+        # self.setWindowTitle("六合彩")
         # 导入展示时间函数，并在此先找到控件label，然后调用函数
+        self.user_name.setText('欢迎，{}！'.format(username))
         self.time_label = self.findChild(QLabel, "time_date_label")
         self.date_2 = self.findChild(QLabel, "label_2")
         self.time_display = TimeDisplay(self.time_label, self.date_2)
@@ -41,8 +44,10 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.blue.clicked.connect(self.ball_button_click.blue_on_button_clicked)
 
         # 按键弹窗
-        num_eidt = NumberEdit()
-        self.number_edit.clicked.connect(lambda: num_eidt.show_dialog())
+        num_edit = NumberEdit()
+        self.number_edit.clicked.connect(lambda: num_edit.show_dialog())  # lambda 只有在点击时才会触发
+        loss_analysis = LossAnalysis()
+        self.analysis_report.clicked.connect(lambda: loss_analysis.show_form())
 
         # sql更改与插入
         # self.sql_control = SqlControl()
@@ -52,12 +57,15 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
-
-    # 创建对象
-    mainWindow = MyWindow()
-    # 显示
-    mainWindow.show()
+    # login_dialog = LoginDialog()
+    # if login_dialog.exec_() == QDialog.Accepted:
+    #     username = login_dialog.login()  # 获取登录成功的用户名
+    #     main_window = MyWindow(username)
+    #     main_window.show()  # 显示主界面
+    #     # 进入程序的主循环，并通过exit函数确保主循环安全结束(该释放资源的一定要释放)
+    #     sys.exit(app.exec_())
+    main_window = MyWindow('admin')
+    main_window.show()  # 显示主界面
     # 进入程序的主循环，并通过exit函数确保主循环安全结束(该释放资源的一定要释放)
     sys.exit(app.exec_())
