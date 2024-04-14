@@ -1,8 +1,6 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QDialog, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, \
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, \
     QScrollArea, QWidget
-from PyQt5.QtGui import QFont, QRegExpValidator
-from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QFont
 
 
 
@@ -10,7 +8,7 @@ class NumberEdit(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("多行编辑器")
+        self.setWindowTitle("号码编辑")
         self.setFixedSize(600, 600)  # 设置对话框的固定大小
         self.setMinimumSize(300, 200)  # 设置对话框的最小大小
         self.setMaximumSize(800, 800)  # 设置对话框的最大大小
