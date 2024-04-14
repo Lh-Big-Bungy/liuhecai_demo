@@ -169,9 +169,9 @@
           <enum>QLayout::SetMaximumSize</enum>
          </property>
          <item row="2" column="3">
-          <widget class="QPushButton" name="composite_single">
+          <widget class="QPushButton" name="large">
            <property name="text">
-            <string>合单</string>
+            <string>大</string>
            </property>
           </widget>
          </item>
@@ -253,9 +253,9 @@
           </widget>
          </item>
          <item row="1" column="4">
-          <widget class="QPushButton" name="minor">
+          <widget class="QPushButton" name="composite_even">
            <property name="text">
-            <string>小</string>
+            <string>合双</string>
            </property>
           </widget>
          </item>
@@ -274,9 +274,9 @@
           </widget>
          </item>
          <item row="2" column="4">
-          <widget class="QPushButton" name="composite_single_2">
+          <widget class="QPushButton" name="minor_2">
            <property name="text">
-            <string>合双</string>
+            <string>小</string>
            </property>
           </widget>
          </item>
@@ -386,9 +386,9 @@
           </widget>
          </item>
          <item row="0" column="4">
-          <widget class="QPushButton" name="large">
+          <widget class="QPushButton" name="composite_single">
            <property name="text">
-            <string>大</string>
+            <string>合单</string>
            </property>
           </widget>
          </item>

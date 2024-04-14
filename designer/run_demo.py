@@ -5,8 +5,9 @@ from controls.textbrowser_format import TextBrowserFormat
 from controls.time_display import TimeDisplay
 from controls.ball_button_click import ButtonClick
 from controls.left_table import LeftTable
-#from Test.test1 import TimeDisplay
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit
+from sql.sql_control import SqlControl
+from controls.number_edit import NumberEdit
 
 
 class MyWindow(QMainWindow, Ui_MainWindow):
@@ -38,6 +39,14 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.red.clicked.connect(self.ball_button_click.red_on_button_clicked)  # 连接按钮的 clicked 信号到槽函数
         self.green.clicked.connect(self.ball_button_click.green_on_button_clicked)
         self.blue.clicked.connect(self.ball_button_click.blue_on_button_clicked)
+
+        # 按键弹窗
+        num_eidt = NumberEdit()
+        self.number_edit.clicked.connect(lambda: num_eidt.show_dialog())
+
+        # sql更改与插入
+        # self.sql_control = SqlControl()
+        # self.number_edit.clicked.connect(lambda: self.sql_control.query_database(self))  # 只有在点击时才会触发
 
 
 
