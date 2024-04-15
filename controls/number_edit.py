@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, \
-    QScrollArea, QWidget
+    QScrollArea, QWidget, QPushButton
 from PyQt5.QtGui import QFont
 
 
@@ -36,10 +36,23 @@ class NumberEdit(QDialog):
             hbox_layout.addWidget(line_edit)
             layout.addLayout(hbox_layout)
 
+        # 创建水平布局来放置按钮
+        button_layout = QHBoxLayout()
+
+        # 创建两个按钮
+        button1 = QPushButton("清空")
+        button2 = QPushButton("保存")
+
+        # 将按钮添加到水平布局中
+        button_layout.addWidget(button1)
+        button_layout.addWidget(button2)
         scroll_area.setWidget(inner_widget)
 
+        # 在主垂直布局中添加滚动区域和按钮布局
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(scroll_area)
+        main_layout.addLayout(button_layout)
+        button1.clicked.connect(self.clear_line_edit)  # 表格提交键
 
     def format_input(self, text):
         # 去除非数字字符
@@ -83,9 +96,15 @@ class NumberEdit(QDialog):
             result_string = ' '.join(filtered_list)  # 保证第一个数字输入时，能录入
         sender = self.sender()
         sender.setText(result_string)
+
+    def clear_line_edit(self):
+        # 清除所有QLineEdit的内容
+        for line_edit in self.findChildren(QLineEdit):
+            line_edit.clear()
+
     def show_dialog(self):
-        dialog = NumberEdit()
-        dialog.exec_()
+        self.dialog = NumberEdit()
+        self.dialog.exec_()
 
 
 
