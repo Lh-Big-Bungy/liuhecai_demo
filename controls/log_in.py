@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 class LoginDialog(QDialog):

@@ -5,11 +5,12 @@ from controls.textbrowser_format import TextBrowserFormat
 from controls.time_display import TimeDisplay
 from controls.ball_button_click import ButtonClick
 from controls.left_table import LeftTable
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit
 from sql.sql_control import SqlControl
 from controls.number_edit import NumberEdit
 from controls.log_in import LoginDialog
 from controls.loss_analysis import LossAnalysis
+from controls.sequential_input import SeqInput
 
 class MyWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, username):
@@ -42,6 +43,10 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.red.clicked.connect(self.ball_button_click.red_on_button_clicked)  # 连接按钮的 clicked 信号到槽函数
         self.green.clicked.connect(self.ball_button_click.green_on_button_clicked)
         self.blue.clicked.connect(self.ball_button_click.blue_on_button_clicked)
+
+        # 连号录入
+        seq_input = SeqInput(self.seq_input, self.restricted_textedit)
+        self.commit_two.clicked.connect(lambda: seq_input.data_processing())
 
         # 按键弹窗
         num_edit = NumberEdit()
