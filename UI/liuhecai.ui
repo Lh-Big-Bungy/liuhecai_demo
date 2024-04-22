@@ -150,7 +150,7 @@
          <item>
           <widget class="QPushButton" name="table_commit">
            <property name="text">
-            <string>提交</string>
+            <string>录单</string>
            </property>
           </widget>
          </item>
@@ -419,25 +419,12 @@
             </size>
            </property>
            <property name="text">
-            <string>单个录入</string>
+            <string>连号录入</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>500</width>
-             <height>30</height>
-            </size>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="seq_input"/>
          </item>
          <item>
           <widget class="QPushButton" name="commit_two">
@@ -455,6 +442,19 @@
            </property>
            <property name="text">
             <string>提交</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;示例：20-30=10，表示20号到30号，每个号下注10元&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
