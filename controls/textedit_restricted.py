@@ -77,8 +77,8 @@ class TextEditRestrict(QTextEdit):
                 self.num = self.count_digits_in_string(self.current_line_text)
         elif event.key() in [ Qt.Key_Left, Qt.Key_Right,
                                 Qt.Key_Up, Qt.Key_Down, Qt.Key_Home, Qt.Key_End, Qt.Key_PageUp,
-                                Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Period]:
-            if event.key() == Qt.Key_Period:
+                                Qt.Key_PageDown, Qt.Key_Control, Qt.Key_Shift, Qt.Key_Alt, Qt.Key_Period, Qt.Key_Equal]:
+            if event.key() == Qt.Key_Period or event.key() == Qt.Key_Equal:
                 self.restrict_flag = False
                 if self.num % 2 == 0:
                     self.insertPlainText('= ')  # 当按下.键时插入=
