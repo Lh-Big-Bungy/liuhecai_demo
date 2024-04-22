@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1183</width>
-    <height>780</height>
+    <height>779</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,13 +103,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="analysis_report">
-       <property name="text">
-        <string>分析上报</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
@@ -469,6 +462,24 @@
           </size>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QPushButton" name="clear_textbrowser">
+           <property name="text">
+            <string>清空</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="analysis_report">
+           <property name="text">
+            <string>分析上报</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
