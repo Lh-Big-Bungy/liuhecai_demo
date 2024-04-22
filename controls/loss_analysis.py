@@ -1,5 +1,5 @@
 from UI.loss_analysis import Ui_Form
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QTextEdit, QTableView, QHeaderView, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QTableView, QHeaderView
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIntValidator
 from PyQt5.QtCore import Qt
 
@@ -65,5 +65,4 @@ class LossAnalysis(QWidget, Ui_Form):
 
     def show_form(self):
         self.show()
-        # form = LossAnalysis()
-        # form.exec_()
+
