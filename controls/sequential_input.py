@@ -8,7 +8,6 @@ class SeqInput(QDialog):
         self.restricted_textedit = restricted_textedit
     def data_processing(self):
         text = self.seq_input.text()
-        print(text)
         # 定义正则表达式，匹配除了数字、等号和减号之外的字符
         pattern = re.compile(r'[^0-9\-=]')
         # 使用正则表达式进行匹配
@@ -28,7 +27,6 @@ class SeqInput(QDialog):
                     return  # 结束执行
                 if 1 <= int(text_list[0]) <= 49 and 1 <= int(text_list[1]) <= 49:
                     self.copy_text_to_textedit(text_list[0], text_list[1], money)
-                    QMessageBox.information(self, "正确", "输入正确")
                     return  # 结束执行
                 else:
                     QMessageBox.warning(self, "错误", "号码输入不正确，请规范输入数字")
