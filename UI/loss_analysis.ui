@@ -28,7 +28,7 @@
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>441</width>
+     <width>491</width>
      <height>71</height>
     </rect>
    </property>
@@ -53,7 +53,27 @@
     <item>
      <widget class="QLineEdit" name="lineEdit"/>
     </item>
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>提交</string>
+      </property>
+     </widget>
+    </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>30</y>
+     <width>361</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;确定赔率和预亏损后，点击提交即可查看数据分析结果&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
   </widget>
  </widget>
  <resources/>

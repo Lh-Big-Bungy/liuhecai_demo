@@ -288,4 +288,4 @@ class Ui_MainWindow(object):
         self.commit_two.setText(_translate("MainWindow", "提交"))
         self.label_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">示例：20-30=10，表示20号到30号，每个号下注10元</span></p></body></html>"))
         self.clear_textbrowser.setText(_translate("MainWindow", "清空"))
-        self.analysis_report.setText(_translate("MainWindow", "分析上报"))
+        self.analysis_report.setText(_translate("MainWindow", "数据分析"))

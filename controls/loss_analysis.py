@@ -1,17 +1,23 @@
 from UI.loss_analysis import Ui_Form
-from PyQt5.QtWidgets import QWidget, QTableView, QHeaderView
+from PyQt5.QtWidgets import QWidget, QTableView, QHeaderView, QMessageBox
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIntValidator
 from PyQt5.QtCore import Qt
-
+from sql.data_write_to_sql import DataToSql
 class LossAnalysis(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("数据分析界面")
+
+
+
         # 创建一个整数验证器
         int_validator = QIntValidator()
         # 设置验证器为lineEdit的验证器
         self.lineEdit.setValidator(int_validator)
+        # 提交倍数与预亏损值
+        self.pushButton.clicked.connect(lambda: self.commit_multiple_loss())
+
         self.table_view()
     def table_view(self):
 
@@ -63,6 +69,19 @@ class LossAnalysis(QWidget, Ui_Form):
         table_view.resizeRowsToContents()
 
 
-    def show_form(self):
-        self.show()
+    def commit_multiple_loss(self):
+        if self.spinBox.value() and self.lineEdit.text():
+            odds_loss_to_sql = DataToSql(odds=str(self.spinBox.value()), loss=int(self.lineEdit.text()))
+            odds_loss_to_sql.odds_loss_to_database()
+        else:
+            QMessageBox.warning(self, "错误", "赔率或预亏损为空")
+
+
+    def show_form(self, data):
+        if data:
+            data_to_sql = DataToSql(data)
+            data_to_sql.write_to_database()
+            self.show()
+        else:
+            QMessageBox.warning(self, "错误", "输入号码为空")
 

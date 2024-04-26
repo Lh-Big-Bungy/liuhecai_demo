@@ -39,6 +39,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
         # 按键录入
         self.ball_button_click = ButtonClick(self.restricted_textedit, self.textBrowser)
+        self.clear_textbrowser.clicked.connect(self.ball_button_click.clear_textbrowser_input)  # 清空textbrowser的输入
         self.commit.clicked.connect(self.ball_button_click.copy_text_to_browser)  # 复制textedit的内容至textBrowser
         self.red.clicked.connect(self.ball_button_click.red_on_button_clicked)  # 连接按钮的 clicked 信号到槽函数
         self.green.clicked.connect(self.ball_button_click.green_on_button_clicked)
@@ -52,13 +53,11 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         num_edit = NumberEdit()
         self.number_edit.clicked.connect(lambda: num_edit.show_dialog())  # lambda 只有在点击时才会触发
         loss_analysis = LossAnalysis()
-        self.analysis_report.clicked.connect(lambda: loss_analysis.show_form())
+        self.analysis_report.clicked.connect(lambda: loss_analysis.show_form(self.textBrowser.toPlainText()))
 
         # sql更改与插入
         # self.sql_control = SqlControl()
         # self.number_edit.clicked.connect(lambda: self.sql_control.query_database(self))  # 只有在点击时才会触发
-
-
 
 
 if __name__ == '__main__':
