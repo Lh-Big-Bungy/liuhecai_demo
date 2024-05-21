@@ -27,7 +27,7 @@ class DataToSql():
         self.num_dict = self.data_to_dict()
         try:
             # 连接到数据库
-            connection = sqlite3.connect('official_data.db')
+            connection = sqlite3.connect('../sql/official_data.db')
             cursor = connection.cursor()
 
 
@@ -62,7 +62,7 @@ class DataToSql():
     def odds_loss_to_database(self):
         try:
             # 连接到数据库
-            connection = sqlite3.connect('odds_loss.db')
+            connection = sqlite3.connect('../sql/official_data.db')
             cursor = connection.cursor()
             # 创建表（如果表不存在）
             cursor.execute('''CREATE TABLE IF NOT EXISTS odds_loss_table
