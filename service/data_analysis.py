@@ -47,8 +47,6 @@ class DataAnalysis():
         self.get_data_from_sql()
         self.odds = int(self.odds_loss[0][1])
         self.base_loss = int(self.odds_loss[0][2])
-        print(self.odds)
-        print(self.base_loss)
         for i in self.num_money:
             self.num_money_dict[i[1]] = i[2]
         self.pop_dict = {}  # 应抛出字典
@@ -67,7 +65,6 @@ class DataAnalysis():
                 self.key_list.append(key)
                 #self.pop_dict[key] = self.num_money_dict[key] - catch_money  # 应抛出金额 = 单个号码总注数 - 吃进注数
                 #self.catch_dict[key] = catch_money  # 吃进 应吃进的最大注数
-        print('********', self.win_money)
         temp_loss = self.base_loss + self.win_money  # 应吃进金额增加，所以预亏损值会增加，实际亏损值为最初设置的值，不变
         catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整，因吃进金额增加，所以这个也会改变
         flag = True
@@ -89,13 +86,11 @@ class DataAnalysis():
                 catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整
             else:
                 flag = False
-        print(self.win_money)
         self.max_num = catch_money_temp
         self.max_num_list = []
         for i in self.catch_dict.keys():
             if self.catch_dict[i] == self.max_num:
                 self.max_num_list.append(i)
-        print(self.max_num_list)
         self.actual_loss_amount = catch_money_temp*self.odds - self.win_money
         # for key in self.key_list:
         #     if self.num_money_dict[key] <= catch_money_temp:
