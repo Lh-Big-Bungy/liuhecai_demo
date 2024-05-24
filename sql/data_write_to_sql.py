@@ -43,19 +43,8 @@ class DataToSql():
 
             # 提交更改并关闭连接
             connection.commit()
-            # 执行查询
-            cursor.execute("SELECT * FROM official_data_table")
-
-            # 获取查询结果
-            rows = cursor.fetchall()
-
-            # 打印查询结果
-            for row in rows:
-                print('++++', row)
-
             connection.close()
 
-            print("数据已成功写入数据库")
         except Exception as e:
             print("写入数据库时出错:", e)
 
@@ -74,18 +63,8 @@ class DataToSql():
             cursor.execute("INSERT INTO odds_loss_table (odds, loss) VALUES (?, ?)", (self.odds, self.loss))
             # 提交更改并关闭连接
             connection.commit()
-            # 执行查询
-            cursor.execute("SELECT * FROM odds_loss_table")
-
-            # 获取查询结果
-            rows = cursor.fetchall()
-
-            # 打印查询结果
-            for row in rows:
-                print('++++', row)
 
             connection.close()
 
-            print("数据已成功写入数据库")
         except Exception as e:
             print("写入数据库时出错:", e)

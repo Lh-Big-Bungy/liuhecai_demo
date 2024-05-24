@@ -42,6 +42,10 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(520, 30, 361, 16))
         self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(Form)
+        self.label_2.setGeometry(QtCore.QRect(20, 660, 611, 31))
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -52,4 +56,4 @@ class Ui_Form(object):
         self.odds.setText(_translate("Form", "赔率"))
         self.maximum_loss.setText(_translate("Form", "最大预亏损"))
         self.pushButton.setText(_translate("Form", "提交"))
-        self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">确定赔率和预亏损后，点击提交即可查看数据分析结果</span></p></body></html>"))
+        self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">确定赔率和最大预亏损后，点击提交即可查看数据分析结果</span></p></body></html>"))

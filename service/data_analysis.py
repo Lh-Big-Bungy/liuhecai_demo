@@ -45,46 +45,58 @@ class DataAnalysis():
     def data_analysis(self):
         self.num_money_dict = {}
         self.get_data_from_sql()
-        odds = int(self.odds_loss[0][1])
-        base_loss = int(self.odds_loss[0][2])
+        self.odds = int(self.odds_loss[0][1])
+        self.base_loss = int(self.odds_loss[0][2])
+        print(self.odds)
+        print(self.base_loss)
         for i in self.num_money:
             self.num_money_dict[i[1]] = i[2]
-        print(self.num_money_dict)
-        print(odds, base_loss)
         self.pop_dict = {}  # 应抛出字典
         self.catch_dict = {}  # 应吃进字典
         self.win_money = 0  # 吃进所赚的钱
         self.key_list = []  # 超预亏损号码列表
         catch_money = 0  # 应吃进金额
         for key in self.num_money_dict.keys():
-            if self.num_money_dict[key] * odds <= base_loss:  # 单个号码总注数*赔率仍达不到预亏值的，全部吃进
+            if self.num_money_dict[key] * self.odds <= self.base_loss:  # 单个号码总注数*赔率仍达不到预亏值的，全部吃进
                 self.catch_dict[key] = self.num_money_dict[key]  # 全吃进
+                self.pop_dict[key] = 0  # 应抛出金额 = 单个号码总注数 - 吃进注数, 全吃进时为0
                 self.win_money += self.num_money_dict[key]  # 吃进总金额增加
-            elif self.num_money_dict[key] * odds > base_loss:
-                catch_money = base_loss // odds  # 应吃进金额，向下取整
+            elif self.num_money_dict[key] * self.odds > self.base_loss:
+                catch_money = self.base_loss // self.odds  # 应吃进金额，向下取整
                 self.win_money += catch_money  # 吃进总金额增加
                 self.key_list.append(key)
                 #self.pop_dict[key] = self.num_money_dict[key] - catch_money  # 应抛出金额 = 单个号码总注数 - 吃进注数
                 #self.catch_dict[key] = catch_money  # 吃进 应吃进的最大注数
-        temp_loss = base_loss + self.win_money  # 因吃进金额增加，所以预亏损值会增加，实际亏损值为最初设置的值，不变
-        catch_money_temp = temp_loss // odds  # 应吃进金额，向下取整，因吃进金额增加，所以这个也会改变
+        print('********', self.win_money)
+        temp_loss = self.base_loss + self.win_money  # 应吃进金额增加，所以预亏损值会增加，实际亏损值为最初设置的值，不变
+        catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整，因吃进金额增加，所以这个也会改变
         flag = True
+        not_enough_list = []
         while flag:
             if catch_money and self.key_list and catch_money_temp != catch_money:  # 当catch_money_temp和catch_money不一致时才继续循环
                 for key in self.key_list:  # 上面是针对全部数字，这是针对经过第一轮筛选的数字
-                    if self.num_money_dict[key] <= catch_money_temp:
+                    if self.num_money_dict[key] <= catch_money_temp and key not in not_enough_list:
                         self.catch_dict[key] = self.num_money_dict[key]  # 全吃进
+                        self.pop_dict[key] = 0  # 应抛出金额 = 单个号码总注数 - 吃进注数, 全吃进时为0
                         self.win_money += (self.num_money_dict[key] - catch_money)
-                    else:
+                        not_enough_list.append(key)
+                    elif key not in not_enough_list:
                         self.pop_dict[key] = self.num_money_dict[key] - catch_money_temp  # 应抛出金额 = 单个号码总注数 - 吃进注数
                         self.catch_dict[key] = catch_money_temp  # 吃进 应吃进的最大注数
                         self.win_money += (catch_money_temp - catch_money)
-                temp_loss = base_loss + self.win_money
+                temp_loss = self.base_loss + self.win_money
                 catch_money = catch_money_temp  # 判断吃进金额是否已达到最大值，若catch_money_temp == catch_money，则表明已吃到最大值
-                catch_money_temp = temp_loss // odds  # 应吃进金额，向下取整
+                catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整
             else:
                 flag = False
-
+        print(self.win_money)
+        self.max_num = catch_money_temp
+        self.max_num_list = []
+        for i in self.catch_dict.keys():
+            if self.catch_dict[i] == self.max_num:
+                self.max_num_list.append(i)
+        print(self.max_num_list)
+        self.actual_loss_amount = catch_money_temp*self.odds - self.win_money
         # for key in self.key_list:
         #     if self.num_money_dict[key] <= catch_money_temp:
         #         self.catch_dict[key] = self.num_money_dict[key]  # 全吃进
@@ -100,50 +112,38 @@ class DataAnalysis():
         #         times = times // odds
         #         self.bet_again(times)
         #         self.win_money += times
-        print(self.catch_dict)
-        print(self.pop_dict)
-        print(self.win_money)
 
     def data_to_sql(self):
-        #try:
-        # 连接到数据库
-        connection = sqlite3.connect('../sql/catch_and_throw.db')
-        cursor = connection.cursor()
-        # 创建表（如果表不存在）
-        cursor.execute('''CREATE TABLE IF NOT EXISTS catch_and_throw_table
-                                   (id INTEGER PRIMARY KEY, num TEXT, total INTEGER, throw INTEGER, catch INTEGER)''')
-        # 每次执行前清空数据库
-        cursor.execute("DELETE FROM catch_and_throw_table")
-        for key in self.num_money_dict.keys():
-            # 检查字典中是否存在对应的键
-            if key in self.pop_dict and key in self.catch_dict:
-                # 插入数据
-                cursor.execute("INSERT INTO catch_and_throw_table (num, total, throw, catch) VALUES (?, ?, ?, ?)",
-                               (key, self.num_money_dict[key], self.pop_dict[key], self.catch_dict[key]))
-            elif key not in self.pop_dict and key in self.catch_dict:
-                # 插入数据
-                cursor.execute("INSERT INTO catch_and_throw_table (num, total, throw, catch) VALUES (?, ?, ?, ?)",
-                               (key, self.num_money_dict[key], 0, self.catch_dict[key]))
+        try:
+            # 连接到数据库
+            connection = sqlite3.connect('../sql/catch_and_throw.db')
+            cursor = connection.cursor()
+            # 创建表（如果表不存在）
+            cursor.execute('''CREATE TABLE IF NOT EXISTS catch_and_throw_table
+                                       (id INTEGER PRIMARY KEY, num TEXT, total INTEGER, throw INTEGER, catch INTEGER)''')
+            # 每次执行前清空数据库
+            cursor.execute("DELETE FROM catch_and_throw_table")
+            for key in self.num_money_dict.keys():
+                # 检查字典中是否存在对应的键
+                if key in self.pop_dict and key in self.catch_dict:
+                    # 插入数据
+                    cursor.execute("INSERT INTO catch_and_throw_table (num, total, throw, catch) VALUES (?, ?, ?, ?)",
+                                   (key, self.num_money_dict[key], self.pop_dict[key], self.catch_dict[key]))
+                elif key not in self.pop_dict and key in self.catch_dict:
+                    # 插入数据
+                    cursor.execute("INSERT INTO catch_and_throw_table (num, total, throw, catch) VALUES (?, ?, ?, ?)",
+                                   (key, self.num_money_dict[key], 0, self.catch_dict[key]))
             # 提交更改并关闭连接
             connection.commit()
-        # 执行查询
-        cursor.execute("SELECT * FROM catch_and_throw_table")
 
-        # 获取查询结果
-        rows = cursor.fetchall()
+            connection.close()
 
-        # 打印查询结果
-        for row in rows:
-            print('++++', row)
-
-        connection.close()
-
-        print("数据已成功写入数据库")
-        # except Exception as e:
-        #     print("写入数据库时出错:", e)
+        except Exception as e:
+            print("写入数据库时出错:", e)
 
     def run(self):
         self.data_analysis()
         self.data_to_sql()
-
+if __name__ == '__main__':
+    DataAnalysis().run()
 
