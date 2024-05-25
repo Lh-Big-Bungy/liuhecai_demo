@@ -14,9 +14,11 @@ class DataToSql():
             num_list = [item for item in num_list if item != ""]  # 清除空元素
             money = temp_list[1].split(' ')
             money = [item for item in money if item != ""]  # 清除空元素
-
             for num in num_list:
+                if not (1 <= int(num) <= 49):
+                    continue
                 key = num
+                key = str(key).zfill(2)  # 自动补全为两位数字，小于10时，自动在前面加0，例01、09
                 value = int(money[0])
                 if key in num_dict:
                     num_dict[key] += value

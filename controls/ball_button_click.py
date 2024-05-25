@@ -30,6 +30,22 @@ class ButtonClick():
                 if '=' not in i or i.strip().split(' ')[-1] == '=':
                     QMessageBox.warning(self.restricted_textedit, "错误", "未输入等号与金额，示例：10 20 30 = 10")
                     return
+                elif i.count('=') != 1:
+                    QMessageBox.warning(self.restricted_textedit, "错误", "请勿输入多个等号")
+                    return
+                temp_list = i.split('=')
+                num_list = temp_list[0].split(' ')
+                num_list = [item for item in num_list if item != ""]  # 清除空元素
+                for num in num_list:
+                    if not (1 <= int(num) <= 49):
+                        QMessageBox.warning(self.restricted_textedit, "错误", "请输入01-49之间的正确号码")
+                        return
+                money = temp_list[1].split(' ')
+                money = [item for item in money if item != ""]  # 清除空元素
+                if int(money[0]) == 0:
+                    QMessageBox.warning(self.restricted_textedit, "错误", "有号码投注金额为零，请重新确认")
+                    return
+
         # 将内容设置到第二个 QTextEdit
         self.textBrowser.setText(text)
 
