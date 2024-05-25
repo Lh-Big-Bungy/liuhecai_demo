@@ -41,9 +41,54 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.ball_button_click = ButtonClick(self.restricted_textedit, self.textBrowser)
         self.clear_textbrowser.clicked.connect(self.ball_button_click.clear_textbrowser_input)  # 清空textbrowser的输入
         self.commit.clicked.connect(self.ball_button_click.copy_text_to_browser)  # 复制textedit的内容至textBrowser
+
+        # 颜色
         self.red.clicked.connect(self.ball_button_click.red_on_button_clicked)  # 连接按钮的 clicked 信号到槽函数
         self.green.clicked.connect(self.ball_button_click.green_on_button_clicked)
         self.blue.clicked.connect(self.ball_button_click.blue_on_button_clicked)
+
+        # 生肖
+        self.mouse.clicked.connect(self.ball_button_click.mouse_on_button_clicked)
+        self.bull.clicked.connect(self.ball_button_click.bull_on_button_clicked)
+        self.tiger.clicked.connect(self.ball_button_click.tiger_on_button_clicked)
+        self.rabbit.clicked.connect(self.ball_button_click.rabbit_on_button_clicked)
+        self.dragon.clicked.connect(self.ball_button_click.dragon_on_button_clicked)
+        self.snake.clicked.connect(self.ball_button_click.snake_on_button_clicked)
+        self.horse.clicked.connect(self.ball_button_click.horse_on_button_clicked)
+        self.goat.clicked.connect(self.ball_button_click.goat_on_button_clicked)
+        self.monkey.clicked.connect(self.ball_button_click.monkey_on_button_clicked)
+        self.chicken.clicked.connect(self.ball_button_click.chicken_on_button_clicked)
+        self.dog.clicked.connect(self.ball_button_click.dog_on_button_clicked)
+        self.pig.clicked.connect(self.ball_button_click.pig_on_button_clicked)
+
+        # 颜色单双
+        self.red_single.clicked.connect(self.ball_button_click.red_single_on_button_clicked)
+        self.red_even.clicked.connect(self.ball_button_click.red_even_on_button_clicked)
+        self.green_single.clicked.connect(self.ball_button_click.green_single_on_button_clicked)
+        self.green_even.clicked.connect(self.ball_button_click.green_even_on_button_clicked)
+        self.blue_single.clicked.connect(self.ball_button_click.blue_single_on_button_clicked)
+        self.blue_even.clicked.connect(self.ball_button_click.blue_even_on_button_clicked)
+
+        # 单双
+        self.single.clicked.connect(self.ball_button_click.single_on_button_clicked)
+        self.composite_single.clicked.connect(self.ball_button_click.composite_single_on_button_clicked)
+        self.even.clicked.connect(self.ball_button_click.even_on_button_clicked)
+        self.composite_even.clicked.connect(self.ball_button_click.composite_even_on_button_clicked)
+
+        # 大小
+        self.large.clicked.connect(self.ball_button_click.large_on_button_clicked)
+        self.minor.clicked.connect(self.ball_button_click.minor_on_button_clicked)
+
+        # 金木水火土
+        self.gold.clicked.connect(self.ball_button_click.gold_on_button_clicked)
+        self.wood.clicked.connect(self.ball_button_click.wood_on_button_clicked)
+        self.water.clicked.connect(self.ball_button_click.water_on_button_clicked)
+        self.fire.clicked.connect(self.ball_button_click.fire_on_button_clicked)
+        self.soil.clicked.connect(self.ball_button_click.soil_on_button_clicked)
+
+        # 尾大、尾小
+        self.tail_large.clicked.connect(self.ball_button_click.tail_large_on_button_clicked)
+        self.tail_minor.clicked.connect(self.ball_button_click.tail_minor_on_button_clicked)
 
         # 连号录入
         seq_input = SeqInput(self.seq_input, self.restricted_textedit)

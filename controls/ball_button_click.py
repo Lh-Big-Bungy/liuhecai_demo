@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 import re
+import sqlite3
 class ButtonClick():
     def __init__(self, restricted_textedit, textBrowser):
         self.restricted_textedit = restricted_textedit
@@ -31,12 +32,132 @@ class ButtonClick():
                     return
         # 将内容设置到第二个 QTextEdit
         self.textBrowser.setText(text)
+
+    def get_number_from_number_edit(self, label):
+        try:
+            # 连接到 SQLite 数据库
+            connection = sqlite3.connect('../sql/number_edit.db')
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM number_edit WHERE label = ?', (label,))
+            results = cursor.fetchone()
+            connection.close()
+            # 返回查询结果
+            if results and results[2]:
+                return results[2]  # 返回 value 值
+            else:
+                return None  # 如果没有找到对应的 label，返回 None
+        except Exception as e:
+            print(e)
+
+    def on_color_button_clicked(self, label):
+        number_list = self.get_number_from_number_edit(label)
+        if number_list:
+            # 在 QTextEdit 中添加数字
+            self.restricted_textedit.append(number_list)
+        else:
+            label = "<b><font color='red'>{}</font></b>".format(label)
+            QMessageBox.warning(self.restricted_textedit, "错误",
+                                "未设置{}的号码，请点击“号码编辑”，找到{}并且重新设置".format(label, label))
+
     def red_on_button_clicked(self):
-        # 在 QTextEdit 中添加数字
-        self.restricted_textedit.append('1 2 3')
+        self.on_color_button_clicked('红')
+
     def green_on_button_clicked(self):
-        # 在 QTextEdit 中添加数字
-        self.restricted_textedit.append('4 5 6')
+        self.on_color_button_clicked('绿')
+
     def blue_on_button_clicked(self):
-        # 在 QTextEdit 中添加数字
-        self.restricted_textedit.append('7 8 9')
+        self.on_color_button_clicked('蓝')
+
+    def mouse_on_button_clicked(self):
+        self.on_color_button_clicked('鼠')
+
+    def bull_on_button_clicked(self):
+        self.on_color_button_clicked('牛')
+
+    def tiger_on_button_clicked(self):
+        self.on_color_button_clicked('虎')
+
+    def rabbit_on_button_clicked(self):
+        self.on_color_button_clicked('兔')
+
+    def dragon_on_button_clicked(self):
+        self.on_color_button_clicked('龙')
+
+    def snake_on_button_clicked(self):
+        self.on_color_button_clicked('蛇')
+
+    def horse_on_button_clicked(self):
+        self.on_color_button_clicked('马')
+
+    def goat_on_button_clicked(self):
+        self.on_color_button_clicked('羊')
+
+    def monkey_on_button_clicked(self):
+        self.on_color_button_clicked('猴')
+
+    def chicken_on_button_clicked(self):
+        self.on_color_button_clicked('鸡')
+
+    def dog_on_button_clicked(self):
+        self.on_color_button_clicked('狗')
+
+    def pig_on_button_clicked(self):
+        self.on_color_button_clicked('猪')
+
+    def red_single_on_button_clicked(self):
+        self.on_color_button_clicked('红单')
+
+    def red_even_on_button_clicked(self):
+        self.on_color_button_clicked('红双')
+
+    def green_single_on_button_clicked(self):
+        self.on_color_button_clicked('绿单')
+
+    def green_even_on_button_clicked(self):
+        self.on_color_button_clicked('绿双')
+
+    def blue_single_on_button_clicked(self):
+        self.on_color_button_clicked('蓝单')
+
+    def blue_even_on_button_clicked(self):
+        self.on_color_button_clicked('蓝双')
+
+    def single_on_button_clicked(self):
+        self.on_color_button_clicked('单')
+
+    def composite_single_on_button_clicked(self):
+        self.on_color_button_clicked('合单')
+
+    def even_on_button_clicked(self):
+        self.on_color_button_clicked('双')
+
+    def composite_even_on_button_clicked(self):
+        self.on_color_button_clicked('合双')
+
+    def large_on_button_clicked(self):
+        self.on_color_button_clicked('大')
+
+    def minor_on_button_clicked(self):
+        self.on_color_button_clicked('小')
+
+    def gold_on_button_clicked(self):
+        self.on_color_button_clicked('金')
+
+    def wood_on_button_clicked(self):
+        self.on_color_button_clicked('木')
+
+    def water_on_button_clicked(self):
+        self.on_color_button_clicked('水')
+
+    def fire_on_button_clicked(self):
+        self.on_color_button_clicked('火')
+
+    def soil_on_button_clicked(self):
+        self.on_color_button_clicked('土')
+
+    def tail_large_on_button_clicked(self):
+        self.on_color_button_clicked('尾大')
+
+    def tail_minor_on_button_clicked(self):
+        self.on_color_button_clicked('尾小')
+
