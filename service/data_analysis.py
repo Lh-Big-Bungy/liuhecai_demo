@@ -63,12 +63,13 @@ class DataAnalysis():
                 catch_money = self.base_loss // self.odds  # 应吃进金额，向下取整
                 self.win_money += catch_money  # 吃进总金额增加
                 self.key_list.append(key)
-                #self.pop_dict[key] = self.num_money_dict[key] - catch_money  # 应抛出金额 = 单个号码总注数 - 吃进注数
-                #self.catch_dict[key] = catch_money  # 吃进 应吃进的最大注数
+                # 当预亏损金额过小，总金额增加但吃进金额不增加时，走这里，才能正常显示
+                self.pop_dict[key] = self.num_money_dict[key] - catch_money  # 应抛出金额 = 单个号码总注数 - 吃进注数
+                self.catch_dict[key] = catch_money  # 吃进 应吃进的最大注数
         temp_loss = self.base_loss + self.win_money  # 应吃进金额增加，所以预亏损值会增加，实际亏损值为最初设置的值，不变
         catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整，因吃进金额增加，所以这个也会改变
         flag = True
-        not_enough_list = []
+        not_enough_list = []  # 吃进后，总金额增加后，又可以全吃进的号码列表
         while flag:
             if catch_money and self.key_list and catch_money_temp != catch_money:  # 当catch_money_temp和catch_money不一致时才继续循环
                 for key in self.key_list:  # 上面是针对全部数字，这是针对经过第一轮筛选的数字
@@ -85,6 +86,7 @@ class DataAnalysis():
                 catch_money = catch_money_temp  # 判断吃进金额是否已达到最大值，若catch_money_temp == catch_money，则表明已吃到最大值
                 catch_money_temp = temp_loss // self.odds  # 应吃进金额，向下取整
             else:
+
                 flag = False
         self.max_num = catch_money_temp
         self.max_num_list = []

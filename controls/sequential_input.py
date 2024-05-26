@@ -18,7 +18,13 @@ class SeqInput(QDialog):
             self.seq_input.clear()  # 清空当前错误输入
         else:
             try:
+                if text.count('=') != 1:
+                    QMessageBox.warning(self, "错误", "请勿输入多个等号")
+                    return
                 money = text.split('=')[1]    ## 分离出投注数额
+                if not money:
+                    QMessageBox.warning(self, "错误", "未输入金额")
+                    return
                 text = text[:text.index("=")]
                 text_list = text.split('-')
                 if int(text_list[1]) < int(text_list[0]):
