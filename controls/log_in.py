@@ -30,7 +30,7 @@ class LoginDialog(QDialog):
 
         # 连接到 SQLite 数据库
         self.db = QSqlDatabase.addDatabase('QSQLITE')
-        self.db.setDatabaseName('../sql/users.db')
+        self.db.setDatabaseName('sql/users.db')
         if not self.db.open():
             QMessageBox.critical(self, "错误", "无法连接到数据库")
             sys.exit(1)

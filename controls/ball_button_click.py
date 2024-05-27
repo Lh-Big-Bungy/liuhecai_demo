@@ -27,6 +27,8 @@ class ButtonClick():
         else:
             texts = text.split('\n')
             for i in texts:
+                if not i:
+                    continue
                 if '=' not in i or i.strip().split(' ')[-1] == '=':
                     QMessageBox.warning(self.restricted_textedit, "错误", "未输入等号与金额，示例：10 20 30 = 10")
                     return
@@ -52,7 +54,7 @@ class ButtonClick():
     def get_number_from_number_edit(self, label):
         try:
             # 连接到 SQLite 数据库
-            connection = sqlite3.connect('../sql/number_edit.db')
+            connection = sqlite3.connect('sql/number_edit.db')
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM number_edit WHERE label = ?', (label,))
             results = cursor.fetchone()

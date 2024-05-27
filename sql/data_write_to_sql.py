@@ -8,6 +8,8 @@ class DataToSql():
     def data_to_dict(self):
         num_dict = {}
         text_list = self.data.split('\n')
+        text_list = [item for item in text_list if item.strip()]  # 去除空行
+
         for text in text_list:
             temp_list = text.split('=')
             num_list = temp_list[0].split(' ')
@@ -29,7 +31,7 @@ class DataToSql():
         self.num_dict = self.data_to_dict()
         try:
             # 连接到数据库
-            connection = sqlite3.connect('../sql/official_data.db')
+            connection = sqlite3.connect('sql/official_data.db')
             cursor = connection.cursor()
 
 
@@ -53,7 +55,7 @@ class DataToSql():
     def odds_loss_to_database(self):
         try:
             # 连接到数据库
-            connection = sqlite3.connect('../sql/official_data.db')
+            connection = sqlite3.connect('sql/official_data.db')
             cursor = connection.cursor()
             # 创建表（如果表不存在）
             cursor.execute('''CREATE TABLE IF NOT EXISTS odds_loss_table

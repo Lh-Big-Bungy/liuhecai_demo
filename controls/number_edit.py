@@ -105,7 +105,7 @@ class NumberEdit(QDialog):
 
     def save_to_database(self):
         # 连接到 SQLite 数据库
-        connection = sqlite3.connect('../sql/number_edit.db')
+        connection = sqlite3.connect('sql/number_edit.db')
         cursor = connection.cursor()
 
         # 创建表格，如果表格不存在

@@ -25,7 +25,7 @@ class LossAnalysis(QWidget, Ui_Form):
     def get_data_from_sql(self, num):
         try:
             # 连接到数据库
-            connection = sqlite3.connect('../sql/catch_and_throw.db')
+            connection = sqlite3.connect('sql/catch_and_throw.db')
             cursor = connection.cursor()
             # 执行SQL查询，筛选出num等于指定值的行
             cursor.execute("SELECT * FROM catch_and_throw_table WHERE num = ?", (num,))
