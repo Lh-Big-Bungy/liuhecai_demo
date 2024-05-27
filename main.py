@@ -5,7 +5,7 @@ from controls.textbrowser_format import TextBrowserFormat
 from controls.time_display import TimeDisplay
 from controls.ball_button_click import ButtonClick
 from controls.left_table import LeftTable
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QSizePolicy, QHeaderView
 from sql.sql_control import SqlControl
 from controls.number_edit import NumberEdit
 from controls.log_in import LoginDialog
@@ -24,6 +24,12 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.time_display = TimeDisplay(self.time_label, self.date_2)
         self.text_browser = TextBrowserFormat(self.textBrowser)
         # 左侧table，控制输入只能是整数
+        # 设置 Size Policy 以使 tableWidget 随窗口大小变化
+        self.tableWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        # 设置列宽自动调整
+        header = self.tableWidget.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
         self.table_view = LeftTable(self.tableWidget, self.textBrowser)
         self.table_commit.clicked.connect(self.table_view.copy_table_to_browser)  # 表格提交键
         self.clear.clicked.connect(self.table_view.clear_column_data)
