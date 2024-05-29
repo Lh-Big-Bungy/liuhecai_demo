@@ -7,5 +7,4 @@
 /dataSources/
 /dataSources.local.xml
 *.pyc
-test.py
-test1.py
+/Test

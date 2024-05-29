@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtGui import QTextCursor
 import re
 import sqlite3
 class ButtonClick():
@@ -70,8 +71,34 @@ class ButtonClick():
     def on_color_button_clicked(self, label):
         number_list = self.get_number_from_number_edit(label)
         if number_list:
-            # 在 QTextEdit 中添加数字
-            self.restricted_textedit.append(number_list)
+            # 获取当前文本光标位置， 为了按钮输入后光标定位在文本后，可以继续输入
+            cursor = self.restricted_textedit.textCursor()
+            cursor.movePosition(QTextCursor.End)
+            # 获取当前文本
+            current_text = self.restricted_textedit.toPlainText()
+            # 在当前文本的末尾添加新的内容
+            if not current_text:
+                new_text = current_text + number_list
+            elif current_text[-1] == ' ':
+                new_text = current_text + number_list
+            else:
+                new_text = current_text + ' ' + number_list
+            # 在当前文本的末尾添加新的内容
+            # if not current_text:
+            #     new_text = number_list
+            # elif current_text[-1] == ' ':
+            #     new_text = number_list
+            # else:
+            #     new_text = ' ' + number_list
+
+            # 清空 QTextEdit
+            # self.restricted_textedit.clear()
+            # 插入新文本
+            #cursor.insertText(new_text)
+            self.restricted_textedit.setPlainText(new_text)
+            self.restricted_textedit.setTextCursor(cursor)
+            self.restricted_textedit.setFocus()  # 为了按钮输入后光标定位在文本后，可以继续输入
+
         else:
             label = "<b><font color='red'>{}</font></b>".format(label)
             QMessageBox.warning(self.restricted_textedit, "错误",
