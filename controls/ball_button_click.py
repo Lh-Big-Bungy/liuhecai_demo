@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QTextCursor
+from sql.data_write_to_sql import DataToSql
 import re
 import sqlite3
 class ButtonClick():
@@ -49,9 +50,19 @@ class ButtonClick():
                     QMessageBox.warning(self.restricted_textedit, "错误", "有号码投注金额为零，请重新确认")
                     return
 
-        # 将内容设置到第二个 QTextEdit
-        self.textBrowser.setText(text)
+        # 将内容追加到第二个 QTextEdit
+        existing_text = self.textBrowser.toPlainText()
+        if existing_text:
+            new_text = existing_text + '\n' + text
+        else:
+            new_text = text
+        self.textBrowser.setPlainText(new_text)
 
+        # 将数据写入数据库，且不删除，有专门的删除数据按钮
+        data_to_sql = DataToSql(data=text)
+        data_to_sql.write_to_database()
+        # 清空当前 QTextEdit 的内容
+        self.restricted_textedit.clear()
     def get_number_from_number_edit(self, label):
         try:
             # 连接到 SQLite 数据库

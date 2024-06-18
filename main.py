@@ -103,7 +103,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         # 按键弹窗
         num_edit = NumberEdit()
         self.number_edit.clicked.connect(lambda: num_edit.show_dialog())  # lambda 只有在点击时才会触发
-        loss_analysis = LossAnalysis()
+        loss_analysis = LossAnalysis(self.textBrowser)
         self.analysis_report.clicked.connect(lambda: loss_analysis.show_form(self.textBrowser.toPlainText()))
 
         # sql更改与插入

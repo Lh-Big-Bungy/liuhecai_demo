@@ -11,7 +11,6 @@ def random_seed(key_list):
     random_choice = random.choice(key_list)
     return random_choice
 class DataAnalysis():
-
     def get_data_from_sql(self):
         # 连接到数据库
         connection = sqlite3.connect('sql/official_data.db')
@@ -88,17 +87,18 @@ class DataAnalysis():
             else:
 
                 flag = False
-        max_value_in_dict = max(self.num_money_dict.values())  # 当投注金额小于最大能吃进金额时，最大投注数应设为现有的最大数,最大亏损也应为现有最大数 * 倍率
-        if catch_money_temp > int(max_value_in_dict):
-            self.max_num = max_value_in_dict
-            self.actual_loss_amount = max_value_in_dict * self.odds - self.win_money
-        else:
-            self.max_num = catch_money_temp
-            self.actual_loss_amount = catch_money_temp * self.odds - self.win_money
-        self.max_num_list = []
-        for i in self.catch_dict.keys():
-            if self.catch_dict[i] == self.max_num:
-                self.max_num_list.append(i)
+        if self.num_money_dict:  # 数据不为空时，才进行下列操作
+            max_value_in_dict = max(self.num_money_dict.values())  # 当投注金额小于最大能吃进金额时，最大投注数应设为现有的最大数,最大亏损也应为现有最大数 * 倍率
+            if catch_money_temp > int(max_value_in_dict):
+                self.max_num = max_value_in_dict
+                self.actual_loss_amount = max_value_in_dict * self.odds - self.win_money
+            else:
+                self.max_num = catch_money_temp
+                self.actual_loss_amount = catch_money_temp * self.odds - self.win_money
+            self.max_num_list = []
+            for i in self.catch_dict.keys():
+                if self.catch_dict[i] == self.max_num:
+                    self.max_num_list.append(i)
         # for key in self.key_list:
         #     if self.num_money_dict[key] <= catch_money_temp:
         #         self.catch_dict[key] = self.num_money_dict[key]  # 全吃进
@@ -118,7 +118,7 @@ class DataAnalysis():
     def data_to_sql(self):
         try:
             # 连接到数据库
-            connection = sqlite3.connect('sql/catch_and_throw.db')
+            connection = sqlite3.connect('sql/official_data.db')
             cursor = connection.cursor()
             # 创建表（如果表不存在）
             cursor.execute('''CREATE TABLE IF NOT EXISTS catch_and_throw_table

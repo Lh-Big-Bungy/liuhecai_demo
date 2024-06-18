@@ -1,15 +1,6 @@
-def log_decorator(func):
-    def wrapper(*args, **kwargs):
-        print(f"Function {func.__name__} is called")
-        result = func(*args, **kwargs)
-        print(result)
-        print(f"Function {func.__name__} is finished")
-        return result
-    return wrapper
+import json
 
-@log_decorator
-def add(a, b):
-    return a + b
-
-result = add(3, 5)
-print("Result:", result)
+a = {'success': False, 'code': '1000', 'message': '当前阶段下用例为空，请添加用例后执行', 'object': None}
+print(type(a))
+print(type(json.dumps(a)))
+print(json.dumps(a))

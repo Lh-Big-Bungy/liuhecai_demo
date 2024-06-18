@@ -39,12 +39,24 @@ class DataToSql():
             cursor.execute('''CREATE TABLE IF NOT EXISTS official_data_table
                                 (id INTEGER PRIMARY KEY, num TEXT, money INTEGER)''')
             # 每次执行前清空数据库
-            cursor.execute("DELETE FROM official_data_table")
+            # cursor.execute("DELETE FROM official_data_table")
             # 插入数据
-
             for key, value in self.num_dict.items():
-                cursor.execute("INSERT INTO official_data_table (num, money) VALUES (?, ?)", (key, value))
+                # 查询数据库中是否存在相同的 num
+                cursor.execute('SELECT * FROM official_data_table WHERE num = ?', (key,))
+                existing_row = cursor.fetchone()
+                if existing_row:
+                    # 如果存在相同的 num，则更新该行的 money 值，将现有值与新值相加
+                    existing_money = existing_row[2]
+                    new_money = existing_money + value
+                    cursor.execute('UPDATE official_data_table SET money = ? WHERE num = ?', (new_money, key))
+                else:
+                    # 如果不存在相同的 num，则插入新的行
+                    cursor.execute('INSERT INTO official_data_table (num, money) VALUES (?, ?)', (key, value))
 
+            cursor.execute('SELECT * FROM official_data_table')
+            result = cursor.fetchall()
+            print('***', result)
             # 提交更改并关闭连接
             connection.commit()
             connection.close()
