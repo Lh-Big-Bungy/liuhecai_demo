@@ -66,7 +66,7 @@ class ButtonClick():
     def get_number_from_number_edit(self, label):
         try:
             # 连接到 SQLite 数据库
-            connection = sqlite3.connect('sql/number_edit.db')
+            connection = sqlite3.connect('sql/official_data.db')
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM number_edit WHERE label = ?', (label,))
             results = cursor.fetchone()

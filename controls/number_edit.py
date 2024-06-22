@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, \
-    QScrollArea, QWidget, QPushButton
+    QScrollArea, QWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QFont
 import sqlite3
 
@@ -139,6 +139,7 @@ class NumberEdit(QDialog):
         connection.close()
 
         # 提示保存成功
+        QMessageBox.information(self, "Information", '号码保存成功')
     def show_dialog(self):
         self.dialog = NumberEdit()
         self.dialog.exec_()
