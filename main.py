@@ -46,7 +46,9 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         # 按键录入
         self.ball_button_click = ButtonClick(self.restricted_textedit, self.textBrowser)
         self.clear_textbrowser.clicked.connect(self.ball_button_click.clear_textbrowser_input)  # 清空textbrowser的输入
-        self.commit.clicked.connect(self.ball_button_click.copy_text_to_browser)  # 复制textedit的内容至textBrowser
+        #self.commit.clicked.connect(self.ball_button_click.copy_text_to_browser)  # 复制textedit的内容至textBrowser
+        self.commit.clicked.connect(self.test)  # 复制textedit的内容至textBrowser
+
 
         # 颜色
         self.red.clicked.connect(self.ball_button_click.red_on_button_clicked)  # 连接按钮的 clicked 信号到槽函数
@@ -103,12 +105,24 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         # 按键弹窗
         num_edit = NumberEdit()
         self.number_edit.clicked.connect(lambda: num_edit.show_dialog())  # lambda 只有在点击时才会触发
-        loss_analysis = LossAnalysis(self.textBrowser)
-        self.analysis_report.clicked.connect(lambda: loss_analysis.show_form(self.textBrowser.toPlainText()))
+        self.loss_analysis = LossAnalysis(self.textBrowser)
+        self.analysis_report.clicked.connect(lambda: self.loss_analysis.show_form(self.textBrowser.toPlainText()))
 
-        # sql更改与插入
-        # self.sql_control = SqlControl()
-        # self.number_edit.clicked.connect(lambda: self.sql_control.query_database(self))  # 只有在点击时才会触发
+    def on_analysis_shown(self, shown):
+        if shown:
+            return True
+            # 在这里执行界面显示后的操作
+        else:
+            return False
+            # 在这里执行界面隐藏后的操作
+    def test(self):
+        self.ball_button_click.copy_text_to_browser()
+        self.shown = self.loss_analysis.analysis_shown.connect(self.on_analysis_shown)
+        if self.shown and self.loss_analysis.spinBox.value() and self.loss_analysis.lineEdit.text():
+            self.loss_analysis.pushButton.click()
+        else:
+            print('界面未出现')
+
 
 
 if __name__ == '__main__':

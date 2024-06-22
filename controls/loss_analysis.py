@@ -1,18 +1,20 @@
 from UI.loss_analysis import Ui_Form
 from PyQt5.QtWidgets import QWidget, QTableView, QHeaderView, QMessageBox, QSizePolicy
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIntValidator, QColor, QFont
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from sql.data_write_to_sql import DataToSql
 from service.data_analysis import DataAnalysis
 import sqlite3
 
 class LossAnalysis(QWidget, Ui_Form):
+    # 定义信号，参数为界面是否已经出现的布尔值
+    analysis_shown = pyqtSignal(bool)
     def __init__(self, text_browser):
         super().__init__()
         self.text_browser = text_browser
         self.setupUi(self)
         self.setWindowTitle("数据分析界面")
-        self.data_analysis = DataAnalysis
+        #self.data_analysis = DataAnalysis
         self.money_summary = 0
         # 创建一个整数验证器
         int_validator = QIntValidator()
@@ -42,8 +44,6 @@ class LossAnalysis(QWidget, Ui_Form):
         except Exception as e:
             print("查询分析详情出错:", e)
         self.label.setText('投注总金额为：<span style="font-weight:bold; color:red; font-size:18px;">{}</span>'.format(self.money_summary))
-        self.total_money.setText(
-            f'投注总金额为：<span style="font-weight:bold; color:red; font-size:18px;">{self.money_summary}</span>')
 
 
     def get_data_from_sql(self, num):
@@ -184,6 +184,10 @@ class LossAnalysis(QWidget, Ui_Form):
             data_analysis = DataAnalysis()
             data_analysis.run()  # 进行数据分析，并写入数据库
             self.throw_up_money = self.money_summary - data_analysis.win_money
+
+            self.total_money.setText(
+                f'投注总金额为：<span style="font-weight:bold; color:red; font-size:18px;">{self.money_summary}</span>'
+                f'   单个号码最大亏损为：<span style="font-weight:bold; color:red; font-size:18px;">{data_analysis.single_loss_max}</span>')
             # 显示总抛出数和总留下数
             self.total_throw_label.setText(
                 f'总抛出数为：<span style="font-weight:bold; color:red; font-size:18px;">{self.throw_up_money}</span>')
@@ -229,6 +233,9 @@ class LossAnalysis(QWidget, Ui_Form):
         self.table_view()
         QMessageBox.warning(self, "警告", "数据已清除，若想继续进行数据分析，请重新输入数据")
         self.label_2.setText('<span style="font-weight:bold; color:red; font-size:18px;">数据已清除，若想继续进行数据分析，请重新输入数据</span>')
+        self.total_money.setText('')
+        self.total_throw_label.setText('')
+        self.total_catch_label.setText('')
         # 设置标签的大小策略
         self.label_2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         # 使标签内容换行
@@ -243,3 +250,15 @@ class LossAnalysis(QWidget, Ui_Form):
             self.show()
         else:
             QMessageBox.warning(self, "错误", "输入号码为空")
+
+    def showEvent(self, event):
+        # 调用父类的showEvent方法
+        super().showEvent(event)
+        # 发送界面已显示的信号，参数为True
+        self.analysis_shown.emit(True)
+
+    def hideEvent(self, event):
+        # 调用父类的hideEvent方法
+        super().hideEvent(event)
+        # 发送界面已隐藏的信号，参数为False
+        self.analysis_shown.emit(False)

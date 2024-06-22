@@ -99,6 +99,7 @@ class DataAnalysis():
             for i in self.catch_dict.keys():
                 if self.catch_dict[i] == self.max_num:
                     self.max_num_list.append(i)
+        self.single_loss_max = catch_money_temp * self.odds   # 单个号码最大亏损值
         # for key in self.key_list:
         #     if self.num_money_dict[key] <= catch_money_temp:
         #         self.catch_dict[key] = self.num_money_dict[key]  # 全吃进
