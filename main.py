@@ -5,7 +5,7 @@ from controls.textbrowser_format import TextBrowserFormat
 from controls.time_display import TimeDisplay
 from controls.ball_button_click import ButtonClick
 from controls.left_table import LeftTable
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QSizePolicy, QHeaderView
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QSizePolicy, QHeaderView, QDialog
 from sql.sql_control import SqlControl
 from controls.number_edit import NumberEdit
 from controls.log_in import LoginDialog
@@ -127,13 +127,15 @@ class MyWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # login_dialog = LoginDialog()
-    # if login_dialog.exec_() == QDialog.Accepted:
-    #     username = login_dialog.login()  # 获取登录成功的用户名
-    #     main_window = MyWindow(username)
-    #     main_window.show()  # 显示主界面
-    #     # 进入程序的主循环，并通过exit函数确保主循环安全结束(该释放资源的一定要释放)
-    #     sys.exit(app.exec_())
+    login_dialog = LoginDialog()
+    if login_dialog.exec_() == QDialog.Accepted:
+        login_dialog.login()
+        main_window = MyWindow('admin')
+        main_window.show()  # 显示主界面
+        # 进入程序的主循环，并通过exit函数确保主循环安全结束(该释放资源的一定要释放)
+        sys.exit(app.exec_())
+    else:
+        sys.exit()
     main_window = MyWindow('admin')
     main_window.show()  # 显示主界面
     # 进入程序的主循环，并通过exit函数确保主循环安全结束(该释放资源的一定要释放)

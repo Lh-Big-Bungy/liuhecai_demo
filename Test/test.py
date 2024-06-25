@@ -1,18 +1,12 @@
-import json
+import jwt
+import datetime
 
-a = {"success": False, "code": "1000", "message": "当前阶段下用例为空，请添加用例后执行", "object": None}
+def generate_token(secret_key, duration_days):
+    expiration_date = datetime.datetime.utcnow() + datetime.timedelta(days=duration_days)
+    token = jwt.encode({'exp': expiration_date}, secret_key, algorithm='HS256')
+    return token
 
-_json = {
-    "test_tool": "perfma",
-    "test_stage": "smoke",
-    "case_count": 100,
-    "fail_case": 10,
-    "success_case": 90,
-    "preset_success_rate": 100.00,
-    "real_rate": 90.00,
-    "test_result": "FAIL",
-    "link_url": "url",
-}
-print(type(a))
-print(type(json.dumps(a)))
-print(json.dumps(a))
+secret_key = 'lhhsa_youareinmyheart'
+duration_days = 365  # Token有效期为30天
+token = generate_token(secret_key, duration_days)
+print(f"Generated Token: {token}")
